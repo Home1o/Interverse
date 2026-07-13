@@ -9,9 +9,13 @@ const { client, isDbOk } = require("./db");
 const app = express();
 app.use(express.json({ limit: "600kb" }));
 
-// log every incoming request so Render logs show activity
+// log every request WITH its outcome: status code + duration
 app.use((req, res, next) => {
-  console.log(new Date().toISOString(), req.method, req.path);
+  const t0 = Date.now();
+  res.on("finish", () => {
+    console.log(new Date().toISOString(), req.method, req.path,
+      "->", res.statusCode, (Date.now() - t0) + "ms");
+  });
   next();
 });
 
