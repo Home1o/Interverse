@@ -9,6 +9,12 @@ const { client, isDbOk } = require("./db");
 const app = express();
 app.use(express.json({ limit: "600kb" }));
 
+// log every incoming request so Render logs show activity
+app.use((req, res, next) => {
+  console.log(new Date().toISOString(), req.method, req.path);
+  next();
+});
+
 // GET /api/health — one-click diagnosis: DB reachability + latency
 app.get("/api/health", async (req, res) => {
   const t0 = Date.now();
