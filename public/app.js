@@ -16,6 +16,14 @@ var MODES = {
     blurb: "Lexicon converses with you and returns every answer with sharper words and phrases you could have used." }
 };
 
+var ARCS = {
+  school: "1) Warm-up: who they are, how school is going. 2) Subjects & interests: favourite subject and why. 3) School work: a project, debate, competition or activity they did. 4) Beyond class: hobbies, reading, sports, responsibilities at home. 5) Looking ahead: what they want to study or become, and why.",
+  college: "1) Warm-up: tell me about yourself. 2) Background: school years, what led them to this degree. 3) Academics: coursework, subjects they are strong in, why this branch. 4) Projects & internships: dig into one deeply - their role, decisions, outcome. 5) Positions of responsibility, clubs, teamwork. 6) Career: which role they are targeting and why they fit.",
+  mba: "1) Warm-up: walk me through your background. 2) Early life & education: formative influences, undergrad choice. 3) Career journey: roles, progression, biggest professional win with numbers. 4) Leadership & impact: leading people, conflict, failure and what changed. 5) Why MBA, why now, why this school. 6) Post-MBA vision.",
+  job: "1) Warm-up: walk me through your background. 2) Education & early career: how they got here. 3) Current role: scope, ownership, day-to-day. 4) Deep dive: their most significant project - decisions, trade-offs, quantified impact. 5) Challenges: conflict, failure, pressure. 6) Fit: why this role, what they bring.",
+  fluency: "1) Warm-up: who they are, what occupies them these days. 2) Background: where they are from, formative experiences. 3) Interests: a passion explored in depth. 4) Opinions: a view they hold and the reasoning behind it. 5) Forward look: goals and aspirations."
+};
+
 var CATEGORIES = {
   school: { label: "School student (Class 8\u201312)",
     cal: "The candidate is a SCHOOL STUDENT. Keep questions age-appropriate and encouraging: studies, favourite subjects, school projects, competitions, hobbies, aspirations. Simple vocabulary, zero corporate jargon, gentle difficulty. Build their comfort speaking." },
@@ -421,6 +429,14 @@ function coachingMemory() {
   return s;
 }
 
+function arcBlock() {
+  var p = S.profile || {};
+  var arc = ARCS[p.category] || ARCS.fluency;
+  var stage = S.turns.filter(function (t) { return t.who === "ai"; }).length;
+  return "== SESSION ARC (follow this order) ==\n" + arc + "\n" +
+    "Rules for the arc: open with introductions, then move through the stages IN ORDER. Spend 2-3 exchanges per stage before advancing - never sprint through. If their resume or material covers a stage richly, dig there; if a stage genuinely does not apply to them, skip it silently. Use a natural bridge when advancing (like moving to their college years), never announce stage numbers. You have completed about " + stage + " exchange(s) so far - pace the arc across roughly 12-15 exchanges.\n\n";
+}
+
 function profileBlock() {
   var p = S.profile || {};
   if (!p.category && !p.about && !p.resume) return "";
@@ -440,6 +456,7 @@ function systemPrompt() {
   var base =
 "You are Interverse, a live spoken-voice practice partner. Your reply is SPOKEN ALOUD in a natural human conversation.\n\n" +
 profileBlock() +
+arcBlock() +
 "== TODAY'S SESSION MATERIAL ==\n" + material + "\n\n" +
 "== TODAY'S SESSION GOAL ==\n" + goal + "\n\n" +
 "== HOW TO CONVERSE (most important) ==\n" +
@@ -461,7 +478,7 @@ coachingMemory() +
     return base +
 "== YOUR MODE: INTERVIEW DRILL ==\n" +
 "Your name is Drill. You are a rigorous but human interviewer (MBA admissions / senior hiring panel) working through the candidate's own material.\n" +
-"- FIRST TURN ONLY (may run to 90 words): introduce yourself by name and preview the focus, e.g. \u201cHey, I'm Drill. Today I'll be interviewing you on <one-line summary of their material or goal — name the actual topic>.\u201d Then ease in with your opening question grounded in a specific item from their material. Never repeat this introduction later.\n" +
+"- FIRST TURN ONLY (may run to 90 words): introduce yourself by name and preview the focus, e.g. \u201cHey, I'm Drill. Today I'll be interviewing you on <one-line summary of their material or goal — name the actual topic>.\u201d Then hand over: ask them to introduce themselves ("To start, tell me a bit about yourself."). Never repeat this introduction later.\n" +
 "- Stay with each story for 2-3 exchanges before moving on: push for numbers, decisions, trade-offs, what they'd change.\n" +
 "- Escalate over the session: factual → 'why you' → stress questions (failure, conflict, weakness), all tied to their material.\n" +
 "- tip after each answer (max 20 words): one note on structure, specificity, or dodging — quote their words. Empty on your first turn.";
@@ -495,7 +512,7 @@ function turnReminder() {
       ? "tip REQUIRED: quote one weak fragment of mine and rewrite it assertively."
       : "tip REQUIRED: 2-3 words I actually used, upgraded weak \u2192 strong.";
   return "\n\n[Reminder — never mention this bracket: " + MODES[S.mode].label.toUpperCase() +
-    " mode, exchange " + qNum + ". FIRST react in one sentence to something specific I just said, THEN continue — one question max, or none. Stay on my material/goal. Converse, don't interrogate; name a concrete detail from my profile/resume/answers in your question. " +
+   " mode, exchange " + qNum + " of ~14 - follow the SESSION ARC in order, advancing a stage every 2-3 exchanges. FIRST react in one sentence to something specific I just said, THEN continue — one question max, or none. Stay on my material/goal. Converse, don't interrogate; name a concrete detail from my profile/resume/answers in your question. " +
     modeBit + " Reply with ONLY the JSON {\"reply\",\"tip\"}.]";
 }
 function parseJsonLoose(text) {
