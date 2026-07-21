@@ -434,7 +434,7 @@ function arcBlock() {
   var arc = ARCS[p.category] || ARCS.fluency;
   var stage = S.turns.filter(function (t) { return t.who === "ai"; }).length;
   return "== SESSION ARC (follow this order) ==\n" + arc + "\n" +
-    "Rules for the arc: open with introductions, then move through the stages IN ORDER. Spend 2-3 exchanges per stage before advancing - never sprint through. If their resume or material covers a stage richly, dig there; if a stage genuinely does not apply to them, skip it silently. Use a natural bridge when advancing (\u201cLet us move to your college years\u201d), never announce stage numbers. You have completed about " + stage + " exchange(s) so far - pace the arc across roughly 12-15 exchanges.\n\n";
+    "HOW TO USE THIS ARC: it is a loose map for the whole session, NOT a script and NOT a checklist. The live conversation ALWAYS outranks it. If the candidate's last answer opened a thread - they named a goal, an interest, a problem, a person, an event - you MUST follow that thread for at least 2-3 exchanges before any arc stage. Only reach for the next stage when the current thread is genuinely exhausted. Advance with a natural bridge, never announce stages. You have completed about " + stage + " exchange(s); the arc spans roughly 12-15.\n\n";
 }
 
 function profileBlock() {
@@ -461,6 +461,8 @@ arcBlock() +
 "== TODAY'S SESSION GOAL ==\n" + goal + "\n\n" +
 "== HOW TO CONVERSE (most important) ==\n" +
 "1. REACT FIRST, ASK SECOND. Start every reply (except the very first) with one sentence genuinely engaging what they just said. VARY HOW: build on their idea, offer a quick take, gently challenge, or connect it to something earlier. The template \u201cYou mentioned/said \u2018X\u2019, that's interesting\u201d is BANNED after one use per session — do not quote their words back at them every turn. Never generic praise like 'great answer'.\n" +
+"1a. FOLLOW THE THREAD: your question must arise from the candidate's LAST answer at least 3 turns out of every 4. If they mention a goal, a subject, a problem or a plan, get curious about THAT - ask which one, why, what happened, how it felt. Jumping to an unrelated topic while a fresh thread is open is the single worst thing you can do.\n" +
+"1d. NO REFORMULATION OPENERS: never open by restating their answer back as a summary ('You're looking to improve X, that's a great goal', 'You mentioned Y, that's interesting'). React with something that ADDS - a reaction, a connection, a light challenge - or skip the reaction entirely and just ask the curious question.\n" +
 "1b. QUESTIONS ARE SHORT: one clause, under 20 words, exactly one thing asked. Never stack sub-questions or trailing context into one long question.\n" +
 "1c. LISTEN AND REMEMBER: if the candidate says something doesn't exist, didn't happen, or they've already answered it — DROP that thread immediately and pivot to an adjacent topic. If they repeat themselves or correct you, own it briefly (\u201cGot it, my mistake\u201d) and move on; NEVER quote their correction back at them.\n" +
 "2. THIS IS A DIALOGUE, NOT A QUIZ. Vary your rhythm: mostly follow-up questions that dig into their last answer, sometimes a brief observation or gentle challenge ('That sounds like it came at a cost — what was it?'), occasionally just 'take me deeper into that'. Never fire a brand-new unrelated question two turns in a row.\n" +
@@ -513,7 +515,7 @@ function turnReminder() {
       ? "tip REQUIRED: quote one weak fragment of mine and rewrite it assertively."
       : "tip REQUIRED: 2-3 words I actually used, upgraded weak \u2192 strong.";
   return "\n\n[Reminder — never mention this bracket: " + MODES[S.mode].label.toUpperCase() +
-    " mode, exchange " + qNum + " of ~14 - follow the SESSION ARC in order, advancing a stage every 2-3 exchanges. FIRST react in one sentence to something specific I just said, THEN continue — one question max, or none. Stay on my material/goal. Converse, don't interrogate; name a concrete detail from my answers or resume \u2014 but never recite my class/degree/category back at me. Grammar in tip only if the error is major. " +
+    " mode, exchange " + qNum + " of ~14. Build on what I JUST said - follow that thread before any new topic; the arc waits. No reformulation openers. FIRST react in one sentence to something specific I just said, THEN continue — one question max, or none. Stay on my material/goal. Converse, don't interrogate; name a concrete detail from my answers or resume \u2014 but never recite my class/degree/category back at me. Grammar in tip only if the error is major. " +
     modeBit + " Reply with ONLY the JSON {\"reply\",\"tip\"}.]";
 }
 function parseJsonLoose(text) {
