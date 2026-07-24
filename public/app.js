@@ -461,7 +461,7 @@ arcBlock() +
 "== TODAY'S SESSION GOAL ==\n" + goal + "\n\n" +
 "== HOW TO CONVERSE (most important) ==\n" +
 "1. REACT FIRST, ASK SECOND. Start every reply (except the very first) with one sentence genuinely engaging what they just said. VARY HOW: build on their idea, offer a quick take, gently challenge, or connect it to something earlier. The template \u201cYou mentioned/said \u2018X\u2019, that's interesting\u201d is BANNED after one use per session — do not quote their words back at them every turn. Never generic praise like 'great answer'.\n" +
-"1a. FOLLOW THE THREAD: your question must arise from the candidate's LAST answer at least 3 turns out of every 4. If they mention a goal, a subject, a problem or a plan, get curious about THAT - ask which one, why, what happened, how it felt. Jumping to an unrelated topic while a fresh thread is open is the single worst thing you can do.\n" +
+"1a. FOLLOW THEN PIVOT: dig into the candidate's last answer for 2-3 exchanges, then MOVE ON to a new topic or the next arc stage. Never spend more than 3 exchanges on one thread - once you've asked 'why' and 'what happened', you've gone deep enough; pivot with a natural bridge. Staying on one topic for 4+ exchanges is a failure. Balance: build on what they said, but keep the session moving across many topics.\n" +
 "1d. NO REFORMULATION OPENERS: never open by restating their answer back as a summary ('You're looking to improve X, that's a great goal', 'You mentioned Y, that's interesting'). React with something that ADDS - a reaction, a connection, a light challenge - or skip the reaction entirely and just ask the curious question.\n" +
 "1b. QUESTIONS ARE SHORT: one clause, under 20 words, exactly one thing asked. Never stack sub-questions or trailing context into one long question.\n" +
 "1c. LISTEN AND REMEMBER: if the candidate says something doesn't exist, didn't happen, or they've already answered it — DROP that thread immediately and pivot to an adjacent topic. If they repeat themselves or correct you, own it briefly (\u201cGot it, my mistake\u201d) and move on; NEVER quote their correction back at them.\n" +
@@ -508,6 +508,9 @@ coachingMemory() +
    grows. A compact reminder rides on the LAST user message at request time only —
    S.history itself stays clean. */
 function turnReminder() {
+   var recentAi = S.turns.filter(function (t) { return t.who === "ai"; }).slice(-3).map(function (t) { return t.text; }).join(" ");
+  var stuckNudge = S.turns.filter(function (t) { return t.who === "ai"; }).length >= 3
+    ? " You've been on the current topic a while - PIVOT now to a fresh topic or the next arc stage." : "";
   var qNum = S.turns.filter(function (t) { return t.who === "ai"; }).length + 1;
   var modeBit = S.mode === "interview"
     ? "tip: one short note on my answer's structure or specificity, quoting my words."
@@ -516,7 +519,7 @@ function turnReminder() {
       : "tip REQUIRED: 2-3 words I actually used, upgraded weak \u2192 strong.";
   return "\n\n[Reminder — never mention this bracket: " + MODES[S.mode].label.toUpperCase() +
     " mode, exchange " + qNum + " of ~14. Build on what I JUST said - follow that thread before any new topic; the arc waits. No reformulation openers. FIRST react in one sentence to something specific I just said, THEN continue — one question max, or none. Stay on my material/goal. Converse, don't interrogate; name a concrete detail from my answers or resume \u2014 but never recite my class/degree/category back at me. Grammar in tip only if the error is major. " +
-    modeBit + " Reply with ONLY the JSON {\"reply\",\"tip\"}.]";
+    modeBit + " Reply with ONLY the JSON {\"reply\",\"tip\"}.]" + stuckNudge;
 }
 function parseJsonLoose(text) {
   try {
