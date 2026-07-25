@@ -668,6 +668,12 @@ async function endSession() {
   }).join("\n");
   var sys = 'You are an expert speaking coach. Analyze the interview transcript. Respond with ONLY JSON, no fences:\n' +
     '{"scores":{"clarity":0-10,"structure":0-10,"confidence":0-10,"vocabulary":0-10},\n' +
+    '"subscores":{\n' +
+    '  "clarity":[{"name":"Conciseness","score":0-10,"note":"<8-12 word reason>"},{"name":"Articulation","score":0-10,"note":"..."},{"name":"Logical flow","score":0-10,"note":"..."}],\n' +
+    '  "structure":[{"name":"Opening & framing","score":0-10,"note":"..."},{"name":"Use of examples","score":0-10,"note":"..."},{"name":"Completeness","score":0-10,"note":"..."}],\n' +
+    '  "confidence":[{"name":"Assertiveness","score":0-10,"note":"..."},{"name":"Filler & hedging","score":0-10,"note":"..."},{"name":"Composure","score":0-10,"note":"..."}],\n' +
+    '  "vocabulary":[{"name":"Precision","score":0-10,"note":"..."},{"name":"Range","score":0-10,"note":"..."},{"name":"Professional tone","score":0-10,"note":"..."}]\n' +
+    '},\n' +
     '"headline":"<one candid sentence verdict>",\n' +
     '"strengths":["...","..."],\n' +
     '"improvements":["specific, actionable...","..."],\n' +
@@ -677,7 +683,8 @@ async function endSession() {
     '- strengths and improvements: 2-4 items each, specific to THIS transcript, quoting their actual words where possible.\n' +
     '- power_phrases: 4-6 items, MANDATORY. Each "weak" must be an EXACT word or short phrase copied from the CANDIDATE lines — weak verbs (did, got, helped), vague nouns (stuff, things, a lot), hedges (I think, maybe, kind of), filler. Each "strong" is the professional upgrade. Never invent quotes.\n' +
     '- grammar_notes: 2-6 items covering ALL noticeable grammar or phrasing errors the candidate made \u2014 quote the exact words, give the natural corrected version. Include minor slips here (this is where they belong, not in live tips). Empty array if their grammar was clean.\n' +
-    '- Scores reflect the whole session honestly; do not inflate.' +
+    '- Scores reflect the whole session honestly; do not inflate. Each top score should roughly equal the average of its three subscores. Every subscore note quotes or references something specific the candidate did.\n' +
+    '- subscores: all four categories, exactly 3 sub-criteria each, as specified.' +
     feedbackContext();
   try {
     var r = await api("/chat", "POST", {
@@ -846,9 +853,19 @@ function feedbackHtml(readOnly) {
       '<div class="statbar" style="margin-top:12px"><span>ANSWERS ' + myTurnCount() + '</span><span>FILLER WORDS ' + fillerCount() + '</span></div></div>';
     var bars = ["clarity", "structure", "confidence", "vocabulary"].map(function (k) {
       var s = (f.scores && f.scores[k]) || 0;
-      return '<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px">' +
-        '<span style="text-transform:capitalize">' + k + '</span><span style="color:var(--mut)">' + s + '/10</span></div>' +
-        '<div class="scorebar"><div style="width:' + (s * 10) + '%"></div></div></div>';
+      var subs = (f.subscores && f.subscores[k]) || [];
+      var subHtml = subs.map(function (sub) {
+        var ss = sub.score || 0;
+        return '<div style="margin:6px 0 6px 12px">' +
+          '<div style="display:flex;justify-content:space-between;font-size:12px;color:var(--mut);margin-bottom:3px">' +
+          '<span>' + esc(sub.name) + '</span><span>' + ss + '/10</span></div>' +
+          '<div class="scorebar" style="height:5px"><div style="width:' + (ss * 10) + '%;opacity:.65"></div></div>' +
+          (sub.note ? '<div style="font-size:11.5px;color:var(--mut);margin-top:3px;line-height:1.4">' + esc(sub.note) + '</div>' : '') +
+          '</div>';
+      }).join("");
+      return '<div style="margin-bottom:16px"><div style="display:flex;justify-content:space-between;font-size:13.5px;font-weight:600;margin-bottom:5px">' +
+        '<span style="text-transform:capitalize">' + k + '</span><span>' + s + '/10</span></div>' +
+        '<div class="scorebar"><div style="width:' + (s * 10) + '%"></div></div>' + subHtml + '</div>';
     }).join("");
     h += '<div class="grid2"><div class="card" style="padding:20px"><div class="eyebrow" style="margin-bottom:14px">SCORES</div>' + bars + '</div>' +
       '<div class="card" style="padding:20px"><div class="eyebrow" style="margin-bottom:12px">WHAT WORKED</div>' +
