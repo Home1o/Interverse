@@ -68,8 +68,11 @@ router.post("/", async (req, res) => {
     }
     if (!r.ok) {
       const detail =
-        (data.error && (data.error.message || data.error.type)) ||
-        (typeof data.error === "string" ? data.error : "") || "unknown error";
+        (data && data.error && (data.error.message || data.error.type || data.error.status)) ||
+        (data && data.message) ||
+        (typeof data.error === "string" ? data.error : "") ||
+        JSON.stringify(data).slice(0, 200) ||
+        "unknown error";
       console.error("[chat]", p.name, "upstream error", r.status, String(detail).slice(0, 300));
       return res.status(502).json({ error: "AI request failed (" + p.name + "): " + String(detail).slice(0, 160) });
     }
