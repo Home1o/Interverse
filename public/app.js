@@ -509,17 +509,28 @@ coachingMemory() +
    grows. A compact reminder rides on the LAST user message at request time only —
    S.history itself stays clean. */
 function turnReminder() {
-   var recentAi = S.turns.filter(function (t) { return t.who === "ai"; }).slice(-3).map(function (t) { return t.text; }).join(" ");
-  var stuckNudge = S.turns.filter(function (t) { return t.who === "ai"; }).length >= 3
-    ? " You've been on the current topic a while - PIVOT now to a fresh topic or the next arc stage." : "";
-  var qNum = S.turns.filter(function (t) { return t.who === "ai"; }).length + 1;
+  var aiTurns = S.turns.filter(function (t) { return t.who === "ai"; }).length;
+  var qNum = aiTurns + 1;
+  // Only nudge a pivot if the LAST 3 AI turns look like the same thread —
+  // measured by heavy word overlap — not merely because the session is long.
+  var ai = S.turns.filter(function (t) { return t.who === "ai"; }).slice(-3).map(function (t) {
+    return (t.text || "").toLowerCase().replace(/[^a-z ]/g, " ").split(/\s+/).filter(function (w) { return w.length > 4; });
+  });
+  var stuckNudge = "";
+  if (ai.length === 3) {
+    var a = {}, shared = 0, total = 0;
+    ai[0].concat(ai[1]).forEach(function (w) { a[w] = 1; });
+    ai[2].forEach(function (w) { total++; if (a[w]) shared++; });
+    if (total > 0 && shared / total > 0.35)
+      stuckNudge = " You've stayed on ONE thread for 3 turns — wrap it up and either ask what I'd like to practise next, or move to a related area of my goal.";
+  }
   var modeBit = S.mode === "interview"
     ? "tip: one short note on my answer's structure or specificity, quoting my words."
     : S.mode === "confidence"
       ? "tip REQUIRED: quote one weak fragment of mine and rewrite it assertively."
       : "tip REQUIRED: 2-3 words I actually used, upgraded weak \u2192 strong.";
   return "\n\n[Reminder — never mention this bracket: " + MODES[S.mode].label.toUpperCase() +
-    " mode, exchange " + qNum + " of ~14. Build on what I JUST said and serve what I asked for; if a thread ends and you're unsure, ASK me what to practise rather than guessing a topic. The arc is only a fallback. No reformulation openers. FIRST react in one sentence to something specific I just said, THEN continue — one question max, or none. Stay on my material/goal. Converse, don't interrogate; name a concrete detail from my answers or resume \u2014 but never recite my class/degree/category back at me. Grammar in tip only if the error is major. " +
+    " mode, exchange " + qNum + " of ~14. TOP PRIORITY: serve what I asked for and build on what I JUST said — stay with a thread for 2-3 exchanges before moving on, and never pivot away while I'm giving you a live thread to explore. When a thread genuinely ends, if you're unsure where to go, ASK me what I'd like to practise rather than jumping to a scripted or generic topic. No reformulation openers. FIRST react in one sentence to something specific I said, THEN one question (or none). Never recite my class/degree back at me. Grammar in tip only if major. " +
     modeBit + " Reply with ONLY the JSON {\"reply\",\"tip\"}.]" + stuckNudge;
 }
 function parseJsonLoose(text) {
