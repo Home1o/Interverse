@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interverse — voice interview practice</title>
+  <meta name="description" content="Interverse: an AI voice interviewer. Practice interviews, build confidence, sharpen vocabulary." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2064%2064%27%3E%3Cdefs%3E%3CclipPath%20id%3D%27a%27%3E%3Ccircle%20cx%3D%2732%27%20cy%3D%2732%27%20r%3D%2721.50%27%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%2732%27%20cy%3D%2732%27%20r%3D%2721.50%27%20fill%3D%27%23EAF7FB%27%2F%3E%3Cg%20clip-path%3D%27url%28%23a%29%27%3E%3Crect%20x%3D%2710.50%27%20y%3D%272%27%20width%3D%276.94%27%20height%3D%2760%27%20fill%3D%27%236FCFF0%27%2F%3E%3Crect%20x%3D%2719.52%27%20y%3D%272%27%20width%3D%276.94%27%20height%3D%2760%27%20fill%3D%27%231E9DC5%27%2F%3E%3Crect%20x%3D%2728.53%27%20y%3D%272%27%20width%3D%276.94%27%20height%3D%2760%27%20fill%3D%27%236FCFF0%27%2F%3E%3Crect%20x%3D%2737.55%27%20y%3D%272%27%20width%3D%276.94%27%20height%3D%2760%27%20fill%3D%27%231E9DC5%27%2F%3E%3Crect%20x%3D%2746.56%27%20y%3D%272%27%20width%3D%276.94%27%20height%3D%2760%27%20fill%3D%27%236FCFF0%27%2F%3E%3C%2Fg%3E%3Ccircle%20cx%3D%2732%27%20cy%3D%2732%27%20r%3D%2723.5%27%20fill%3D%27none%27%20stroke%3D%27%230F7A66%27%20stroke-width%3D%274%27%2F%3E%3C%2Fsvg%3E" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2064%2064%27%3E%3Cdefs%3E%3CclipPath%20id%3D%27a%27%3E%3Ccircle%20cx%3D%2732%27%20cy%3D%2732%27%20r%3D%2718.49%27%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Crect%20width%3D%2764%27%20height%3D%2764%27%20rx%3D%2714%27%20fill%3D%27%23FFFFFF%27%2F%3E%3Ccircle%20cx%3D%2732%27%20cy%3D%2732%27%20r%3D%2718.49%27%20fill%3D%27%23EAF7FB%27%2F%3E%3Cg%20clip-path%3D%27url%28%23a%29%27%3E%3Crect%20x%3D%2713.79%27%20y%3D%272%27%20width%3D%275.87%27%20height%3D%2760%27%20fill%3D%27%236FCFF0%27%2F%3E%3Crect%20x%3D%2721.43%27%20y%3D%272%27%20width%3D%275.87%27%20height%3D%2760%27%20fill%3D%27%231E9DC5%27%2F%3E%3Crect%20x%3D%2729.06%27%20y%3D%272%27%20width%3D%275.87%27%20height%3D%2760%27%20fill%3D%27%236FCFF0%27%2F%3E%3Crect%20x%3D%2736.70%27%20y%3D%272%27%20width%3D%275.87%27%20height%3D%2760%27%20fill%3D%27%231E9DC5%27%2F%3E%3Crect%20x%3D%2744.34%27%20y%3D%272%27%20width%3D%275.87%27%20height%3D%2760%27%20fill%3D%27%236FCFF0%27%2F%3E%3C%2Fg%3E%3Ccircle%20cx%3D%2732%27%20cy%3D%2732%27%20r%3D%2723.5%27%20fill%3D%27none%27%20stroke%3D%27%230F7A66%27%20stroke-width%3D%274%27%2F%3E%3C%2Fsvg%3E" />
+  <meta name="theme-color" content="#1F2A37" />
+  <link rel="stylesheet" href="/styles.css?v=33" />
+</head>
+<body>
+  <!-- ============ LANDING ============ -->
+  <div id="landing" style="display:none">
+    <header class="lp-nav">
+      <div class="lp-brand"><span class="lp-mark">◍</span><span class="display">Interverse</span></div>
+      <div class="lp-nav-actions">
+        <button class="lp-link" onclick="goAuth('login')">Sign in</button>
+        <button class="lp-cta sm" onclick="goAuth('register')">Start practising</button>
+      </div>
+    </header>
+
+    <section class="lp-stage">
+      <!-- the room: one speaker under a spotlight, panel listening in the dark -->
+      <svg class="lp-scene" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+        <defs>
+          <linearGradient id="beam" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#F2C078" stop-opacity=".34"/>
+            <stop offset="55%" stop-color="#F2C078" stop-opacity=".11"/>
+            <stop offset="100%" stop-color="#F2C078" stop-opacity="0"/>
+          </linearGradient>
+          <radialGradient id="pool" cx="50%" cy="50%">
+            <stop offset="0%" stop-color="#F2C078" stop-opacity=".28"/>
+            <stop offset="100%" stop-color="#F2C078" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="glow" cx="50%" cy="50%">
+            <stop offset="0%" stop-color="#F7D9A6" stop-opacity=".85"/>
+            <stop offset="100%" stop-color="#F7D9A6" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+
+        <!-- spotlight beam from above onto the one who has to speak -->
+        <polygon class="lp-beam" points="880,0 762,600 998,600" fill="url(#beam)"/>
+        <ellipse cx="880" cy="600" rx="138" ry="30" fill="url(#pool)"/>
+
+        <!-- the speaker, mid-sentence -->
+        <g class="lp-speaker">
+          <circle cx="880" cy="494" r="44" fill="url(#glow)" opacity=".5"/>
+          <circle cx="880" cy="498" r="18" fill="#F7E4C3"/>
+          <path d="M880 520 c-25 0 -41 17 -44 41 l-6 42 h100 l-6 -42 c-3 -24 -19 -41 -44 -41 z" fill="#F2C078"/>
+          <path class="lp-arm" d="M845 532 c-15 8 -24 21 -26 38" stroke="#F2C078" stroke-width="8" stroke-linecap="round" fill="none"/>
+        </g>
+
+        <!-- the voice carrying across the room -->
+        <g class="lp-wave">
+          <rect x="932" y="532" width="5" height="18" rx="2.5"/>
+          <rect x="946" y="524" width="5" height="34" rx="2.5"/>
+          <rect x="960" y="514" width="5" height="54" rx="2.5"/>
+          <rect x="974" y="526" width="5" height="30" rx="2.5"/>
+          <rect x="988" y="536" width="5" height="10" rx="2.5"/>
+        </g>
+        <g class="lp-wave lp-wave-l">
+          <rect x="823" y="532" width="5" height="18" rx="2.5"/>
+          <rect x="809" y="524" width="5" height="34" rx="2.5"/>
+          <rect x="795" y="514" width="5" height="54" rx="2.5"/>
+          <rect x="781" y="526" width="5" height="30" rx="2.5"/>
+          <rect x="767" y="536" width="5" height="10" rx="2.5"/>
+        </g>
+
+        <!-- the panel, in silhouette, listening -->
+        <g fill="#16212E" stroke="#2C3D4F" stroke-width="1.5">
+          <rect x="0" y="812" width="1200" height="88" fill="#0A0F16" stroke="none"/>
+          <g class="lp-panelist">
+            <circle cx="330" cy="782" r="30"/><path d="M330 818 c-40 0 -64 18 -69 40 h138 c-5 -22 -29 -40 -69 -40z"/>
+          </g>
+          <g class="lp-panelist lp-p2">
+            <circle cx="660" cy="794" r="32"/><path d="M660 832 c-42 0 -67 16 -72 38 h144 c-5 -22 -30 -38 -72 -38z"/>
+          </g>
+          <g class="lp-panelist lp-p3">
+            <circle cx="990" cy="782" r="30"/><path d="M990 818 c-40 0 -64 18 -69 40 h138 c-5 -22 -29 -40 -69 -40z"/>
+          </g>
+        </g>
+      </svg>
+
+      <div class="lp-hero">
+        <p class="lp-eyebrow">AI VOICE INTERVIEW PRACTICE</p>
+        <h1 class="lp-title display">The room is quiet.<br/><em>It's your turn to speak.</em></h1>
+        <p class="lp-sub">Interverse gives you a real interviewer who listens, pushes back, and tells you exactly what to say better — out loud, as many times as it takes.</p>
+
+        <div class="lp-arc" role="list">
+          <span class="lp-step" role="listitem"><b>Practice</b><small>Speak it out loud</small></span>
+          <span class="lp-sep" aria-hidden="true">→</span>
+          <span class="lp-step" role="listitem"><b>Persist</b><small>Session after session</small></span>
+          <span class="lp-sep" aria-hidden="true">→</span>
+          <span class="lp-step" role="listitem"><b>Perfect</b><small>Walk in ready</small></span>
+        </div>
+
+        <div class="lp-actions">
+          <button class="lp-cta" onclick="goAuth('register')">Start practising — free</button>
+          <button class="lp-ghost" onclick="goAuth('login')">I have an account</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-body">
+      <div class="lp-inner">
+        <p class="lp-eyebrow dark">WHO YOU'LL PRACTISE WITH</p>
+        <div class="lp-cards">
+          <article class="lp-card">
+            <span class="lp-badge" style="background:#136F63">D</span>
+            <h3>Drill</h3>
+            <p>A rigorous interviewer who works from your resume and asks the follow-up you were hoping to avoid.</p>
+          </article>
+          <article class="lp-card">
+            <span class="lp-badge" style="background:#8A4FFF">B</span>
+            <h3>HR Question Practice</h3>
+            <p>A set of 5 or 10 HR questions built for your profile. See the whole list, then answer them one by one.</p>
+          </article>
+          <article class="lp-card">
+            <span class="lp-badge" style="background:#C2571B">L</span>
+            <h3>Lexicon</h3>
+            <p>A conversation that hands back every word you could have said better, collected at the end.</p>
+          </article>
+        </div>
+
+        <div class="lp-how">
+          <div class="lp-how-head">
+            <p class="lp-eyebrow dark">HOW IT WORKS</p>
+            <h2 class="display lp-h2">Tomorrow's interview is the wrong place to hear yourself for the first time.</h2>
+            <p class="lp-how-sub">Three steps, about fifteen minutes, and a record of every round you've spoken.</p>
+          </div>
+          <ol class="lp-steps">
+            <li><b>Tell us who you are.</b> A Class 10 student and a supply-chain manager should not get the same questions. Add your resume if you have one.</li>
+            <li><b>Speak your answers.</b> Tap once and talk. Your interviewer replies out loud, in real time.</li>
+            <li><b>Read the report.</b> Scores broken down, the phrases to drop, the words to use instead — saved so you can watch yourself improve.</li>
+          </ol>
+          <div class="lp-how-cta">
+            <button class="lp-cta" onclick="goAuth('register')">Start practising — free</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ AUTH ============ -->
+  <div id="auth-screen" class="auth-wrap" style="display:none">
+    <div class="auth-card">
+      <button class="brand-home" onclick="goHome()" title="Back to the Interverse home page" aria-label="Interverse — back to home">
+        <span class="brand-mark">◍</span>
+        <span class="display brand-name">Interverse</span>
+      </button>
+      <div class="brand-sub">Your AI interview room. Speak, get grilled, get better.</div>
+
+      <div class="auth-tabs">
+        <button id="tab-login" class="auth-tab sel" onclick="showAuthTab('login')">Sign in</button>
+        <button id="tab-register" class="auth-tab" onclick="showAuthTab('register')">Create account</button>
+      </div>
+
+      <div id="pane-login" class="auth-pane">
+        <input id="li-email" class="input" type="email" placeholder="Email" autocomplete="email" />
+        <input id="li-pass" class="input" type="password" placeholder="Password" autocomplete="current-password" />
+        <button class="btn btn-primary btn-block" onclick="doLogin()">Sign in</button>
+        <button class="btn-link" onclick="showForgot()">Forgot password?</button>
+      </div>
+
+      <div id="pane-forgot" class="auth-pane" style="display:none">
+        <div class="otp-note">Enter your account email — we'll send a 6-digit reset code.</div>
+        <input id="fp-email" class="input" type="email" placeholder="Email" autocomplete="email" />
+        <button class="btn btn-primary btn-block" onclick="doForgotStart()">Send reset code</button>
+        <button class="btn-link" onclick="showAuthTab('login')">Back to sign in</button>
+      </div>
+
+      <div id="pane-reset" class="auth-pane" style="display:none">
+        <div class="otp-note">Code sent to <b id="reset-email-label"></b>. Enter it with your new password.</div>
+        <input id="rp-code" class="input otp-input" inputmode="numeric" maxlength="6" placeholder="······" />
+        <input id="rp-pass" class="input" type="password" placeholder="New password (8+ characters)" autocomplete="new-password" />
+        <button class="btn btn-primary btn-block" onclick="doResetPassword()">Reset password</button>
+        <button class="btn-link" onclick="doForgotStart()">Resend code</button>
+      </div>
+
+      <div id="pane-register" class="auth-pane" style="display:none">
+        <input id="rg-name" class="input" type="text" placeholder="Your name" autocomplete="name" />
+        <input id="rg-email" class="input" type="email" placeholder="Email" autocomplete="email" />
+        <input id="rg-pass" class="input" type="password" placeholder="Password (8+ characters)" autocomplete="new-password" />
+        <button class="btn btn-primary btn-block" onclick="doRegister()">Create account</button>
+      </div>
+
+      <div id="pane-otp" class="auth-pane" style="display:none">
+        <div class="otp-note">We emailed a 6-digit code to <b id="otp-email-label"></b>. Enter it to verify your address.</div>
+        <input id="otp-code" class="input otp-input" inputmode="numeric" maxlength="6" placeholder="······" />
+        <button class="btn btn-primary btn-block" onclick="doVerifyOtp()">Verify email</button>
+        <button class="btn-link" onclick="doResendOtp()">Resend code</button>
+      </div>
+
+      <div id="auth-msg" class="auth-msg"></div>
+      <button class="btn-link" onclick="goHome()" style="margin-top:4px">← Back to home</button>
+    </div>
+  </div>
+
+  <!-- ============ APP SHELL ============ -->
+  <div id="app-shell" class="shell" style="display:none">
+    <aside class="sidebar">
+      <button class="side-brand" onclick="goNewSession()" title="Home" style="background:none;border:none;cursor:pointer;padding:2px 4px 6px;font-family:inherit;color:inherit">
+        <span class="brand-mark sm">◍</span>
+        <span class="display">Interverse</span>
+      </button>
+      <button class="btn btn-primary btn-block" onclick="goNewSession()">+ New session</button>
+      <button class="btn btn-ghost btn-block" onclick="goProfile()">👤 My profile</button>
+      <div class="side-label">SAVED SESSIONS</div>
+      <div id="conv-list" class="conv-list"></div>
+      <div class="side-foot">
+        <div id="fb-box" class="fb-box">
+          <button class="fb-open" onclick="toggleFeedback()">
+            <span>💬 Send feedback</span><span id="fb-caret">▾</span>
+          </button>
+          <div id="fb-panel" class="fb-panel" style="display:none">
+            <div class="fb-rate">
+              <button class="fb-face" data-r="good" onclick="setFbRating('good')" title="Working well">🙂</button>
+              <button class="fb-face" data-r="ok"   onclick="setFbRating('ok')"   title="Mixed">😐</button>
+              <button class="fb-face" data-r="bad"  onclick="setFbRating('bad')"  title="Something's wrong">🙁</button>
+            </div>
+            <textarea id="fb-text" class="fb-text" rows="3" placeholder="What worked, what didn't, what's missing?"></textarea>
+            <button id="fb-send" class="btn btn-primary btn-block" style="padding:8px" onclick="sendFeedback()">Send</button>
+            <div id="fb-status" class="fb-status"></div>
+          </div>
+        </div>
+        <div class="side-user-row">
+          <div class="user-chip">
+            <span id="user-avatar" class="avatar"></span>
+            <span id="user-name" class="user-name"></span>
+          </div>
+          <button class="btn-link" onclick="doLogout()">Sign out</button>
+        </div>
+      </div>
+      <button class="side-collapse" onclick="collapseSidebar()" title="Collapse sidebar" aria-label="Collapse sidebar">‹</button>
+    </aside>
+
+    <button id="side-toggle" class="side-toggle" onclick="toggleSidebar()" aria-label="Toggle saved sessions">☰</button>
+    <button id="side-expand" class="side-expand" onclick="expandSidebar()" title="Show sidebar" aria-label="Show sidebar">›</button>
+
+    <main class="main">
+      <div class="main-head">
+        <div>
+          <div class="eyebrow" id="head-eyebrow">PRACTICE ROOM</div>
+          <div class="display main-title" id="head-title">New session</div>
+        </div>
+        <span id="onair" class="onair" style="display:none"><span class="dot"></span><span id="onair-text">ON AIR</span></span>
+      </div>
+      <div id="view"></div>
+    </main>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="/ratelimit.js?v=33"></script>
+  <script src="/docextract.js?v=33"></script>
+  <script src="/analytics.js?v=33"></script>
+  <script src="/app.js?v=33"></script>
+</body>
+</html>
